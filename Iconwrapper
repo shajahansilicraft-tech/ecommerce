@@ -1,0 +1,14 @@
+// IconWrapper.tsx
+import React from 'react';
+import { BeakerIcon, HeartIcon } from '@heroicons/react/24/solid';
+
+export const HeroIcon = ({ name, className = 'h-6 w-6 text-gray-500' }: { name: string; className?: string }) => {
+  switch (name) {
+    case 'beaker':
+      return <BeakerIcon className={className} />;
+    case 'heart':
+      return <HeartIcon className={className} />;
+    default:
+      return <BeakerIcon className={className} />;
+  }
+};
