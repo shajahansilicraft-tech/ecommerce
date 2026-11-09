@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(pwd)"
+RUNTIME_DIR="/tmp/figma-make-runtime"
+
+if [[ ! -d "$RUNTIME_DIR/node_modules/vite" || ! -f "$RUNTIME_DIR/index.html" ]]; then
+  "$REPO_ROOT/.figma/make/install"
+fi
+
+exec "$RUNTIME_DIR/node_modules/.bin/vite" \
+  --config "$REPO_ROOT/.figma/make/vite.config.mjs" \
+  --port "$PORT" \
+  --host

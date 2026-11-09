@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+REPO_ROOT="$(pwd)"
+RUNTIME_DIR="/tmp/figma-make-runtime"
+BUILD_DIR="dist"
+
+if [[ ! -d "$RUNTIME_DIR/node_modules/vite" || ! -f "$RUNTIME_DIR/index.html" ]]; then
+  "$REPO_ROOT/.figma/make/install"
+fi
+
+"$RUNTIME_DIR/node_modules/.bin/vite" build \
+  --config "$REPO_ROOT/.figma/make/vite.config.mjs" \
+  --outDir "$REPO_ROOT/$BUILD_DIR" \
+  --emptyOutDir
+
+[[ -d "dist" ]] || {
+  echo "Expected build output at dist" >&2
+  exit 1
+}
+
+figma make deploy --build-dir "dist"
